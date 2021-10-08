@@ -46,10 +46,10 @@ const locationObject = {
 };
 const createLocation = () => ({
   lat: _.toNumber(
-    getRandomArbitrary(locationObject.lat.min, locationObject.lat.max, 5)
+    getRandomArbitrary(locationObject.lat.min, locationObject.lat.max, 5),
   ),
   lng: _.toNumber(
-    getRandomArbitrary(locationObject.lng.min, locationObject.lng.max, 5)
+    getRandomArbitrary(locationObject.lng.min, locationObject.lng.max, 5),
   ),
 });
 
@@ -78,6 +78,7 @@ const createAd = (el, i) => ({
   location: createLocation(),
 });
 
-const similarAds = Array.from({ length: SIMILAR_AD_COUNT }, createAd);
+const similarAds = () => Array.from({ length: SIMILAR_AD_COUNT }, createAd);
 // creatAD функция, которая возвращает значения объектов//);
-console.log(similarAds);
+similarAds();
+
