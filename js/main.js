@@ -1,53 +1,85 @@
-//Задание 1.
-
-//    Функция, возвращающая случайное целое число из переданного диапазона включительно. Пример использования функции:
-
-// имя_функции(от, до); // Результат: целое число из диапазона "от...до"
-
-// Учтите, что диапазон может быть только положительный, включая ноль. А также придумайте, как функция должна вести себя, если передать значение «до» меньшее, чем значение «от», или равное ему.
-
-// При решении пользовалась https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  if (min < 0 ||  min >= max) {
-    return('Задан неверный диапазон');
+  if (min < 0 || min >= max) {
+    return 'Задан неверный диапазон';
   }
-  return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+  return Math.round(Math.random() * (max - min + 1)) + min;
 }
 getRandomIntInclusive(1, 5);
 
-
-//Задание 2.
-
-//   Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно. Будет использоваться для генерации временных географических координат в следующем задании. Пример использования функции:
-
-//имя_функции(от, до, количество_знаков_после_запятой); // Результат: число с плавающей точкой из диапазона "от...до" с указанным "количеством знаков после запятой"
-
-//Учтите, что диапазон может быть только положительный, включая ноль. А также придумайте, как функция должна вести себя, если передать значение «до» меньшее, чем значение «от», или равное ему. Не забудьте, что в случае с дробными числами диапазон может быть в десятых, сотых, тысячных и т. д. долях. Например, 1.1, 1.2 — корректный диапазон.
-
-// При решении пользовалась https://qna.habr.com/q/999157
-
 function getRandomArbitrary(min, max, digits) {
   if (min >= max || min < 0) {
-    return ('Задан неверный диапазон! Укажите другие числа.');
+    return 'Задан неверный диапазон! Укажите другие числа.';
   }
-  return(Math.random() * (max - min) + min).toFixed(digits);
+  return (Math.random() * (max - min) + min).toFixed(digits);
 }
 getRandomArbitrary(2, 5, 4);
 
-
-//Задание 3
-
-//    Функция для проверки максимальной длины строки. Будет использоваться для проверки длины введённого комментария, но должна быть универсальна. Пример использования функции:
-
-// имя_функции(проверяемая_строка, максимальная_длина); // Результат: true, если строка проходит по длине, и false — если не проходит
-
-const checkMaxLengthString = function(string, maxLenght) {
-  if(string.length <= maxLenght) {
-    return true;
-  }
-  return false;
+const SIMILAR_AD_COUNT = 10;
+const TITLE = ['Сдаю квартиру', 'Квартира с шикарным видом на 16 этаже', 'Новый гостевой дом, баня на дровах'];
+const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const CHECKINS = ['12:00', '13:00', '14:00'];
+const CHECKOUTS = ['12:00', '13:00', '14:00'];
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+const DESCRIPTION = ['Уютное помещение для семьи с детьми', 'Апартаменты в самом центре Казани. В шаговой доступности: Кремль, мечеть Кул Шариф, Кремлевская набережная, ЦУМ, Цирк, РК Пирамида, ж/д вокзал, Булак, ул. Баумана, оз. Кабан. До метро Кремлёвская 7 минут пешком.', 'Самое удобное место расположения в Адлере. Это самый центр. Под окном пешеходная прогулочная зона и прекрасные цветущая магнолии. Все в пешей доступности: рынок, торговые центры City Plaza и Новый Век. На втором этаже дома расположен спортивный комплекс. На первом частная пекарня и колоритная кафе со свежевыпеченными круассанами и ароматным кофе.'];
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/  javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+const locationObject = {
+  lat: {
+    min: 35.65,
+    max: 35.7,
+  },
+  lng: {
+    min: 139.7,
+    max: 139.8,
+  },
 };
-checkMaxLengthString('fdhfgjdf', 6);
+const createLocation = () => ({
+  lat: _.toNumber(
+    getRandomArbitrary(locationObject.lat.min, locationObject.lat.max, 5),
+  ),
+  lng: _.toNumber(
+    getRandomArbitrary(locationObject.lng.min, locationObject.lng.max, 5),
+  ),
+});
+
+const createAuthor = (i) => {
+  const indexString = (i + 1).toString();
+  const idUserImg = indexString.padStart(2, '0');
+  return {
+    avatar: `img/avatars/user${idUserImg}.png`,
+  };
+};
+const createAd = (el, i) => ({
+  author: createAuthor(i),
+  offer: {
+    title: _.sample(TITLE), //придумать самой
+    address: `${createLocation().lat}, ${createLocation().lng}`,
+    price: _.random(1, 1000000), // Случайное целое положительное число
+    type: _.sample(TYPES), //строка — одно из пяти фиксированных значений: palace, flat, house, bungalow или hotel
+    rooms: _.random(1, 10), //Случайное целое положительное число.
+    guests: _.random(1, 100), //Случайное целое положительное число.
+    checkin: _.sample(CHECKINS), ///строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00
+    checkout: _.sample(CHECKOUTS), ///строка — одно из трёх фиксированных         значений: 12:00, 13:00 или 14:00
+    features: _.sampleSize(FEATURES, _.random(1, FEATURES.length)), //массив строк — массив случайной длины из значений: wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
+    description: _.sample(DESCRIPTION), //придумать самой
+    photos: _.sampleSize(PHOTOS, _.random(1, PHOTOS.length)),
+  },
+  location: createLocation(),
+});
+
+const similarAds = () => Array.from({ length: SIMILAR_AD_COUNT }, createAd);
+// creatAD функция, которая возвращает значения объектов//);
+similarAds();
+
