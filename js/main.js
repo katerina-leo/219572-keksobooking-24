@@ -17,7 +17,7 @@ function getRandomArbitrary(min, max, digits) {
 getRandomArbitrary(2, 5, 4);
 
 const SIMILAR_AD_COUNT = 10;
-//const ADDRESS = '{{location.lat}}, {{location.lng}}';
+const TITLE = ['Сдаю квартиру', 'Квартира с шикарным видом на 16 этаже', 'Новый гостевой дом, баня на дровах'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECKINS = ['12:00', '13:00', '14:00'];
 const CHECKOUTS = ['12:00', '13:00', '14:00'];
@@ -29,6 +29,7 @@ const FEATURES = [
   'elevator',
   'conditioner',
 ];
+const DESCRIPTION = ['Уютное помещение для семьи с детьми', 'Апартаменты в самом центре Казани. В шаговой доступности: Кремль, мечеть Кул Шариф, Кремлевская набережная, ЦУМ, Цирк, РК Пирамида, ж/д вокзал, Булак, ул. Баумана, оз. Кабан. До метро Кремлёвская 7 минут пешком.', 'Самое удобное место расположения в Адлере. Это самый центр. Под окном пешеходная прогулочная зона и прекрасные цветущая магнолии. Все в пешей доступности: рынок, торговые центры City Plaza и Новый Век. На втором этаже дома расположен спортивный комплекс. На первом частная пекарня и колоритная кафе со свежевыпеченными круассанами и ароматным кофе.'];
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/  javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -63,7 +64,7 @@ const createAuthor = (i) => {
 const createAd = (el, i) => ({
   author: createAuthor(i),
   offer: {
-    title: 'Сдаю квартиру', //придумать самой
+    title: _.sample(TITLE), //придумать самой
     address: `${createLocation().lat}, ${createLocation().lng}`,
     price: _.random(1, 1000000), // Случайное целое положительное число
     type: _.sample(TYPES), //строка — одно из пяти фиксированных значений: palace, flat, house, bungalow или hotel
@@ -72,7 +73,7 @@ const createAd = (el, i) => ({
     checkin: _.sample(CHECKINS), ///строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00
     checkout: _.sample(CHECKOUTS), ///строка — одно из трёх фиксированных         значений: 12:00, 13:00 или 14:00
     features: _.sampleSize(FEATURES, _.random(1, FEATURES.length)), //массив строк — массив случайной длины из значений: wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
-    description: 'Уютное помещение для семьи с детьми', //придумать самой
+    description: _.sample(DESCRIPTION), //придумать самой
     photos: _.sampleSize(PHOTOS, _.random(1, PHOTOS.length)),
   },
   location: createLocation(),
