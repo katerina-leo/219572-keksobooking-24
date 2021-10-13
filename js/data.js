@@ -1,3 +1,4 @@
+import { getRandomArbitrary } from'./util.js';
 
 const SIMILAR_AD_COUNT = 10;
 const TITLE = ['Сдаю квартиру', 'Квартира с шикарным видом на 16 этаже', 'Новый гостевой дом, баня на дровах'];
@@ -28,4 +29,45 @@ const locationObject = {
     max: 139.8,
   },
 };
-export {SIMILAR_AD_COUNT, TITLE, TYPES, CHECKINS, CHECKOUTS, FEATURES,DESCRIPTION, PHOTOS, locationObject};
+
+const createLocation = () => ({
+  lat: _.toNumber(
+    getRandomArbitrary(locationObject.lat.min, locationObject.lat.max, 5),
+  ),
+  lng: _.toNumber(
+    getRandomArbitrary(locationObject.lng.min, locationObject.lng.max, 5),
+  ),
+});
+
+const createAuthor = (i) => {
+  const indexString = (i + 1).toString();
+  const idUserImg = indexString.padStart(2, '0');
+  return {
+    avatar: `img/avatars/user${idUserImg}.png`,
+  };
+};
+
+/**
+ * Возвращает значения объектов.
+ */
+const createAd = (el, i) => ({
+  author: createAuthor(i),
+  offer: {
+    title: _.sample(TITLE),
+    address: `${createLocation().lat}, ${createLocation().lng}`,
+    price: _.random(1, 1000000),
+    type: _.sample(TYPES),
+    rooms: _.random(1, 10),
+    guests: _.random(1, 100),
+    checkin: _.sample(CHECKINS),
+    checkout: _.sample(CHECKOUTS),
+    features: _.sampleSize(FEATURES, _.random(1, FEATURES.length)),
+    description: _.sample(DESCRIPTION),
+    photos: _.sampleSize(PHOTOS, _.random(1, PHOTOS.length)),
+  },
+  location: createLocation(),
+});
+
+const similarAds = () => Array.from({ length: SIMILAR_AD_COUNT }, createAd);
+
+export { similarAds };
