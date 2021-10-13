@@ -1,66 +1,6 @@
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  if (min < 0 || min >= max) {
-    return 'Задан неверный диапазон';
-  }
-  return Math.round(Math.random() * (max - min + 1)) + min;
-}
-getRandomIntInclusive(1, 5);
+import {createAuthor, createLocation} from './util.js';
+import {SIMILAR_AD_COUNT, TITLE, TYPES, CHECKINS, CHECKOUTS, FEATURES,DESCRIPTION, PHOTOS} from './data.js';
 
-function getRandomArbitrary(min, max, digits) {
-  if (min >= max || min < 0) {
-    return 'Задан неверный диапазон! Укажите другие числа.';
-  }
-  return (Math.random() * (max - min) + min).toFixed(digits);
-}
-getRandomArbitrary(2, 5, 4);
-
-const SIMILAR_AD_COUNT = 10;
-const TITLE = ['Сдаю квартиру', 'Квартира с шикарным видом на 16 этаже', 'Новый гостевой дом, баня на дровах'];
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const CHECKINS = ['12:00', '13:00', '14:00'];
-const CHECKOUTS = ['12:00', '13:00', '14:00'];
-const FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-const DESCRIPTION = ['Уютное помещение для семьи с детьми', 'Апартаменты в самом центре Казани. В шаговой доступности: Кремль, мечеть Кул Шариф, Кремлевская набережная, ЦУМ, Цирк, РК Пирамида, ж/д вокзал, Булак, ул. Баумана, оз. Кабан. До метро Кремлёвская 7 минут пешком.', 'Самое удобное место расположения в Адлере. Это самый центр. Под окном пешеходная прогулочная зона и прекрасные цветущая магнолии. Все в пешей доступности: рынок, торговые центры City Plaza и Новый Век. На втором этаже дома расположен спортивный комплекс. На первом частная пекарня и колоритная кафе со свежевыпеченными круассанами и ароматным кофе.'];
-const PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/  javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-const locationObject = {
-  lat: {
-    min: 35.65,
-    max: 35.7,
-  },
-  lng: {
-    min: 139.7,
-    max: 139.8,
-  },
-};
-const createLocation = () => ({
-  lat: _.toNumber(
-    getRandomArbitrary(locationObject.lat.min, locationObject.lat.max, 5),
-  ),
-  lng: _.toNumber(
-    getRandomArbitrary(locationObject.lng.min, locationObject.lng.max, 5),
-  ),
-});
-
-const createAuthor = (i) => {
-  const indexString = (i + 1).toString();
-  const idUserImg = indexString.padStart(2, '0');
-  return {
-    avatar: `img/avatars/user${idUserImg}.png`,
-  };
-};
 const createAd = (el, i) => ({
   author: createAuthor(i),
   offer: {
@@ -82,4 +22,3 @@ const createAd = (el, i) => ({
 const similarAds = () => Array.from({ length: SIMILAR_AD_COUNT }, createAd);
 // creatAD функция, которая возвращает значения объектов//);
 similarAds();
-
