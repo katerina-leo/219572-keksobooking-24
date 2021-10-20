@@ -68,6 +68,6 @@ const createAd = (el, i) => ({
   location: createLocation(),
 });
 
-const similarAds = () => Array.from({ length: SIMILAR_AD_COUNT }, createAd);
+const createSimilarAds = () => Array.from({ length: SIMILAR_AD_COUNT }, createAd);
 
-export { similarAds };
+export { createSimilarAds };
