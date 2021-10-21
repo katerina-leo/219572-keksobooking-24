@@ -18,7 +18,7 @@ const createCardAd = (dataAd) => {
   adElement.querySelector('.popup__text--address').textContent = dataAd.offer.address;
   adElement.querySelector('.popup__text--price').textContent = `${dataAd.offer.price} ₽/ночь`;
   adElement.querySelector('.popup__type').textContent = LABEL_TYPE[dataAd.offer.type];
-  adElement.querySelector('.popup__text--capacity').textContent = `Заезд после ${dataAd.offer.checkin}, выезд до ${dataAd.offer.checkout}`;
+  adElement.querySelector('.popup__text--capacity').textContent = `${dataAd.offer.rooms} комнаты для ${dataAd.offer.guests} гостей`;
   adElement.querySelector('.popup__text--time').textContent = `Заезд после ${dataAd.offer.checkin}, выезд до ${dataAd.offer.checkout}`;
   adElement.querySelector('.popup__description').textContent = dataAd.offer.description;
   adElement.querySelector('.popup__avatar').src = dataAd.author.avatar;
