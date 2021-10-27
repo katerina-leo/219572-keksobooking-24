@@ -16,7 +16,7 @@ const typeElement = adFormElement.querySelector('#type');
 const timeInElement = adFormElement.querySelector('#timein');
 const timeOutElement = adFormElement.querySelector('#timeout');
 const minPrice = {
-  BUNGALO: 0,
+  BUNGALOW: 0,
   FLAT: 1000,
   HOTEL:3000,
   HOUSE: 5000,
@@ -77,7 +77,7 @@ const setErrorBorder = () => {
     if (el.validity.valid) {
       el.style.borderColor = 'white';
     } else {
-      el.style.bordeColor =  'red';
+      el.style.borderColor = 'red';
     }
   };
 
@@ -112,8 +112,8 @@ submitButtonEl.addEventListener('click', () => {
 const getPriceNight = (value) => {
   switch (value) {
     case 'bungalow':
-      priceElement.placeholder = minPrice.BUNGALO;
-      priceElement.min = minPrice.BUNGALO;
+      priceElement.placeholder = minPrice.BUNGALOW;
+      priceElement.min = minPrice.BUNGALOW;
       break;
     case 'flat':
       priceElement.placeholder = minPrice.FLAT;
