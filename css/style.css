@@ -390,14 +390,7 @@ fieldset {
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
   box-shadow: 0 0 2px 2px #ff6547;
 }
-.ad-form__element select:valid,
-.ad-form__element input:valid {
-  background-color: white;
-}
-.ad-form__element select:invalid,
-.ad-form__element input:invalid {
-  border-color: red;
-}
+
 .ad-form__element--time {
   -ms-flex-preferred-size: 50%;
   flex-basis: 50%;
