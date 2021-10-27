@@ -11,6 +11,17 @@ const currentState = {
   countRoom: roomsSelectElement.value,
   isFailSend: false,
 };
+const priceElement = adFormElement.querySelector('#price');
+const typeElement = adFormElement.querySelector('#type');
+const timeInElement = adFormElement.querySelector('#timein');
+const timeOutElement = adFormElement.querySelector('#timeout');
+const minPrice = {
+  BUNGALO: 0,
+  FLAT: 1000,
+  HOTEL:3000,
+  HOUSE: 5000,
+  PALACE: 10000,
+};
 
 
 const setDisabled = () => {
@@ -95,5 +106,42 @@ submitButtonEl.addEventListener('click', () => {
     setErrorBorder();
   }
 });
+
+//  Тип жилья - цена за ночь//
+
+const getPriceNight = (value) => {
+  switch (value) {
+    case 'bungalow':
+      priceElement.placeholder = minPrice.BUNGALO;
+      priceElement.min = minPrice.BUNGALO;
+      break;
+    case 'flat':
+      priceElement.placeholder = minPrice.FLAT;
+      priceElement.min = minPrice.FLAT;
+      break;
+    case 'hotel':
+      priceElement.placeholder =  minPrice.HOTEL;
+      priceElement.min = minPrice.HOTEL;
+      break;
+    case 'house':
+      priceElement.placeholder = minPrice.HOUSE;
+      priceElement.min = minPrice.HOUSE;
+      break;
+    case 'palace':
+      priceElement.placeholder = minPrice.PALACE;
+      priceElement.min = minPrice.PALACE;
+      break;
+  }
+};
+typeElement.addEventListener('change', (evt) => getPriceNight(evt.target.value));
+//Время заезда-время выезад//
+
+const changeTime = (value) => {
+  timeInElement.value = value;
+  timeOutElement.value = value;
+};
+
+timeInElement.addEventListener('change', (evt) => changeTime(evt.target.value));
+timeOutElement.addEventListener('change', (evt) => changeTime(evt.target.value));
 
 export { setActive, setDisabled };
