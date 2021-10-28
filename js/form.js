@@ -48,13 +48,14 @@ const setActive = () => {
 //Валидация Количество комнат-количество гостей//
 
 const checkCapacitySelect = (value) => {
-
   const valueToNumber = parseInt(value, 10);
 
   if (valueToNumber > currentState.countRoom && valueToNumber !== 0) {
     capacitySelectElement.setCustomValidity('Нужно больше комнат');
-  } else if (valueToNumber === 0) {
+  } else if (currentState.countRoom !== 100 && valueToNumber === 0) {
     capacitySelectElement.setCustomValidity('Нужно выбрать 100 комнат');
+  } else if (currentState.countRoom === 100 && valueToNumber !== 0) {
+    capacitySelectElement.setCustomValidity('100 комнат - не для гостей');
   } else {
     capacitySelectElement.setCustomValidity('');
   }
@@ -67,7 +68,10 @@ const setCountRooms = (value) => {
   currentState.countRoom = valueToNumber;
 };
 capacitySelectElement.addEventListener('change', (evt) => checkCapacitySelect(evt.target.value));
-roomsSelectElement.addEventListener('change', (evt) => setCountRooms(evt.target.value));
+roomsSelectElement.addEventListener('change', (evt) => {
+  setCountRooms(evt.target.value);
+  checkCapacitySelect(capacitySelectElement.value);
+});
 
 
 //Валидация формы//
@@ -97,6 +101,7 @@ adFormElement.addEventListener('change', () => {
 });
 
 submitButtonEl.addEventListener('click', () => {
+  checkCapacitySelect(capacitySelectElement.value);
   const isValidForm = adFormElement.checkValidity();
 
   if (isValidForm) {
