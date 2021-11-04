@@ -1,3 +1,6 @@
+import { createSuccessTemplate, createErrorTemplate } from './util.js';
+import { resetMap } from './map.js';
+
 const adFormElement = document.querySelector('.ad-form');
 const fieldsetAdFormElements = adFormElement.querySelectorAll('fieldset');
 const mapFiltersElement = document.querySelector('.map__filters');
@@ -22,7 +25,7 @@ const minPrice = {
   HOUSE: 5000,
   PALACE: 10000,
 };
-
+const adFormReset = document.querySelector('.ad-form__reset');
 
 const setDisabled = () => {
   adFormElement.classList.add('ad-form--disabled');
@@ -74,6 +77,44 @@ roomsSelectElement.addEventListener('change', (evt) => {
 });
 
 
+//  Тип жилья - цена за ночь//
+
+const getPriceNight = (value) => {
+  switch (value) {
+    case 'bungalow':
+      priceElement.placeholder = minPrice.BUNGALOW;
+      priceElement.min = minPrice.BUNGALOW;
+      break;
+    case 'flat':
+      priceElement.placeholder = minPrice.FLAT;
+      priceElement.min = minPrice.FLAT;
+      break;
+    case 'hotel':
+      priceElement.placeholder =  minPrice.HOTEL;
+      priceElement.min = minPrice.HOTEL;
+      break;
+    case 'house':
+      priceElement.placeholder = minPrice.HOUSE;
+      priceElement.min = minPrice.HOUSE;
+      break;
+    case 'palace':
+      priceElement.placeholder = minPrice.PALACE;
+      priceElement.min = minPrice.PALACE;
+      break;
+  }
+};
+typeElement.addEventListener('change', (evt) => getPriceNight(evt.target.value));
+
+//Время заезда-время выезад//
+
+const changeTime = (value) => {
+  timeInElement.value = value;
+  timeOutElement.value = value;
+};
+
+timeInElement.addEventListener('change', (evt) => changeTime(evt.target.value));
+timeOutElement.addEventListener('change', (evt) => changeTime(evt.target.value));
+
 //Валидация формы//
 
 const setErrorBorder = () => {
@@ -112,41 +153,45 @@ submitButtonEl.addEventListener('click', () => {
   }
 });
 
-//  Тип жилья - цена за ночь//
-
-const getPriceNight = (value) => {
-  switch (value) {
-    case 'bungalow':
-      priceElement.placeholder = minPrice.BUNGALOW;
-      priceElement.min = minPrice.BUNGALOW;
-      break;
-    case 'flat':
-      priceElement.placeholder = minPrice.FLAT;
-      priceElement.min = minPrice.FLAT;
-      break;
-    case 'hotel':
-      priceElement.placeholder =  minPrice.HOTEL;
-      priceElement.min = minPrice.HOTEL;
-      break;
-    case 'house':
-      priceElement.placeholder = minPrice.HOUSE;
-      priceElement.min = minPrice.HOUSE;
-      break;
-    case 'palace':
-      priceElement.placeholder = minPrice.PALACE;
-      priceElement.min = minPrice.PALACE;
-      break;
-  }
-};
-typeElement.addEventListener('change', (evt) => getPriceNight(evt.target.value));
-//Время заезда-время выезад//
-
-const changeTime = (value) => {
-  timeInElement.value = value;
-  timeOutElement.value = value;
+//сбрасывает изменения
+const resetForm = () => {
+  adFormElement.reset();
+  mapFiltersElement.reset();
+  resetMap(); //сбрасывает метку, балун
 };
 
-timeInElement.addEventListener('change', (evt) => changeTime(evt.target.value));
-timeOutElement.addEventListener('change', (evt) => changeTime(evt.target.value));
+//отправка формы
+const setUserFormSubmit = (onSuccess, onFail) => {
+  adFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-export { setActive, setDisabled };
+    const formData = new FormData(evt.target);
+    fetch(
+      'https://24.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    )
+      .then((response) => {
+        if (response.ok) {
+          onSuccess(createSuccessTemplate);
+          resetForm();
+        } else {
+          onFail(createErrorTemplate);
+        }
+      })
+      .catch(() => {
+        onFail(createErrorTemplate);
+      });
+  });
+};
+
+//сбрасывает изменения кнопкой
+
+adFormReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
+export { setActive, setDisabled, setUserFormSubmit };

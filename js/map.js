@@ -22,9 +22,12 @@ const mainPinMarker = L.marker(
   },
 );
 
-const addMap = (similarAds, setActive) => {
-  // добавляет карту
-  const map = L.map('map-canvas')
+const map = L.map('map-canvas');
+const addressInputElement = document.querySelector('#address');
+
+
+const addMap = (dataAds, setActive) => {
+  map
     .on('load', () => {
       setActive();
     })
@@ -42,7 +45,6 @@ const addMap = (similarAds, setActive) => {
 
   mainPinMarker.addTo(map); // добавляет метку на карту
 
-  const addressInputElement = document.querySelector('#address');
   addressInputElement.value = `${LAT}, ${LNG}`; // координаты адреса по умолчанию
 
   mainPinMarker.on('moveend', (evt) => {
@@ -52,7 +54,7 @@ const addMap = (similarAds, setActive) => {
   });
 
   // обычные метки c объявлениями
-  similarAds.forEach((dataAd) => {
+  dataAds.forEach((dataAd) => {
     const {location: {lat, lng}} = dataAd;
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
@@ -71,5 +73,12 @@ const addMap = (similarAds, setActive) => {
       .bindPopup(createCardAd(dataAd));
   });
 };
+//сбрасывает метку, показ балуна
+const resetMap = () => {
+  const latLng = L.latLng(LAT, LNG);
+  mainPinMarker.setLatLng(latLng);
+  addressInputElement.value = `${LAT}, ${LNG}`; // координаты адреса по умолчанию
+  map.closePopup();
+};
 
-export { addMap };
+export { addMap, resetMap };
