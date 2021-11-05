@@ -37,11 +37,14 @@ const setDisabled = () => {
     fieldsetAdFormElement.setAttribute('disabled', 'disabled');
   });
 };
-const setActive = () => {
+const setActiveForm = () => {
   adFormElement.classList.remove('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
     fieldsetAdFormElement.removeAttribute('disabled');
   });
+};
+
+const setActiveFilters = () => {
   mapFiltersElement.classList.remove('map__filters--disabled');
   selectMapFiltersElements.forEach((fieldsetAdFormElement) => {
     fieldsetAdFormElement.removeAttribute('disabled');
@@ -194,4 +197,4 @@ adFormReset.addEventListener('click', (evt) => {
   resetForm();
 });
 
-export { setActive, setDisabled, setUserFormSubmit };
+export { setActiveFilters, setActiveForm, setDisabled, setUserFormSubmit };

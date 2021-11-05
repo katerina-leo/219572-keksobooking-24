@@ -24,15 +24,7 @@ const createErrorTemplate = () =>{
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
+  alertContainer.classList.add('error__message--show');
   alertContainer.textContent = message;
   document.body.append(alertContainer);
 
@@ -42,7 +34,7 @@ const showAlert = (message) => {
 };
 
 //сообщение на весь экран при успешной отправке и его закрытие
-const fullScreenSuccess = (createMessageTemplate) => {
+const showSuccessMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();
   document.body.appendChild(template);
 
@@ -62,7 +54,7 @@ const fullScreenSuccess = (createMessageTemplate) => {
 
 //сообщение на весь экран об ошибке  и его закрытие
 
-const fullScreenError = (createMessageTemplate) => {
+const showErrorMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();
   document.body.appendChild(template);
 
@@ -83,4 +75,4 @@ const fullScreenError = (createMessageTemplate) => {
   });
 };
 
-export { showAlert, createSuccessTemplate, createErrorTemplate, fullScreenSuccess, fullScreenError };
+export { showAlert, createSuccessTemplate, createErrorTemplate, showSuccessMessage, showErrorMessage };

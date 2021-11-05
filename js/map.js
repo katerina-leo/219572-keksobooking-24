@@ -26,10 +26,10 @@ const map = L.map('map-canvas');
 const addressInputElement = document.querySelector('#address');
 
 
-const addMap = (dataAds, setActive) => {
+const addMap = (setActiveForm) => {
   map
     .on('load', () => {
-      setActive();
+      setActiveForm();
     })
     .setView({
       lat: LAT,
@@ -52,8 +52,10 @@ const addMap = (dataAds, setActive) => {
     const lng = (evt.target.getLatLng().lng).toFixed(5);
     addressInputElement.value = `${lat}, ${lng}`;
   });
+};
 
-  // обычные метки c объявлениями
+// обычные метки c объявлениями
+const addMarkers = (dataAds) => {
   dataAds.forEach((dataAd) => {
     const {location: {lat, lng}} = dataAd;
     const icon = L.icon({
@@ -73,6 +75,7 @@ const addMap = (dataAds, setActive) => {
       .bindPopup(createCardAd(dataAd));
   });
 };
+
 //сбрасывает метку, показ балуна
 const resetMap = () => {
   const latLng = L.latLng(LAT, LNG);
@@ -81,4 +84,4 @@ const resetMap = () => {
   map.closePopup();
 };
 
-export { addMap, resetMap };
+export { addMap, addMarkers, resetMap };
