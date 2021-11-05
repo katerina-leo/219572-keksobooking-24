@@ -23,7 +23,7 @@ const createCardAd = (dataAd) => {
   adElement.querySelector('.popup__description').textContent = dataAd.offer.description;
   adElement.querySelector('.popup__avatar').src = dataAd.author.avatar;
   //добавление удобств
-  const featuresList = dataAd.offer.features;
+  const featuresList = dataAd.offer.features || [];
   const popupFeaturesContainer = adElement.querySelector('.popup__features');
   const popupFeaturesList = popupFeaturesContainer.querySelectorAll('.popup__feature');
   const modifieres = featuresList.map((featuresElement) => `popup__feature--${featuresElement}`);
@@ -35,7 +35,7 @@ const createCardAd = (dataAd) => {
     }
   });
   //Добавление фото
-  const photosList = dataAd.offer.photos;
+  const photosList = dataAd.offer.photos || [];
   const popupPhotosContainer = adElement.querySelector('.popup__photos');
   photosList.forEach((photosListElement) => {
     const photosListItem = document.createElement('img');
