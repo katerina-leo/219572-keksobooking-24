@@ -1,5 +1,6 @@
 import { createSuccessTemplate, createErrorTemplate } from './util.js';
 import { resetMap } from './map.js';
+import { sendData } from './api.js';
 
 const adFormElement = document.querySelector('.ad-form');
 const fieldsetAdFormElements = adFormElement.querySelectorAll('fieldset');
@@ -156,6 +157,7 @@ submitButtonEl.addEventListener('click', () => {
   }
 });
 
+
 //сбрасывает изменения
 const resetForm = () => {
   adFormElement.reset();
@@ -168,25 +170,14 @@ const setUserFormSubmit = (onSuccess, onFail) => {
   adFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    const formData = new FormData(evt.target);
-    fetch(
-      'https://24.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
+    sendData(
+      () => {
+        onSuccess(createSuccessTemplate);
+        resetForm();
       },
-    )
-      .then((response) => {
-        if (response.ok) {
-          onSuccess(createSuccessTemplate);
-          resetForm();
-        } else {
-          onFail(createErrorTemplate);
-        }
-      })
-      .catch(() => {
-        onFail(createErrorTemplate);
-      });
+      () => onFail(createErrorTemplate),
+      new FormData(evt.target),
+    );
   });
 };
 

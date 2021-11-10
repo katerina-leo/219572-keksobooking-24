@@ -1,7 +1,11 @@
 import { createCardAd } from './popup.js';
+import { getData } from './api.js';
+import { checkFilters } from './filter.js';
 
 const LAT = 35.6895;
 const LNG = 139.692;
+const RERENDER_DELAY = 500;
+const SIMILAR_AD_COUNT = 10;
 
 // создает иконку маркера
 const mainPinIcon = L.icon({
@@ -24,7 +28,9 @@ const mainPinMarker = L.marker(
 
 const map = L.map('map-canvas');
 const addressInputElement = document.querySelector('#address');
-
+const mapData = {
+  markers: [],
+};
 
 const addMap = (setActiveForm) => {
   map
@@ -73,6 +79,7 @@ const addMarkers = (dataAds) => {
     marker
       .addTo(map)
       .bindPopup(createCardAd(dataAd));
+    mapData.markers.push(marker);
   });
 };
 
@@ -84,4 +91,17 @@ const resetMap = () => {
   map.closePopup();
 };
 
-export { addMap, addMarkers, resetMap };
+const removeMarkers = () => {
+  mapData.markers.forEach((marker) => marker.remove());
+  mapData.markers = [];
+};
+//перерисовывает маркеры при фильтрации
+const renderMarkers = () => {
+  getData(_.debounce((dataAds) => {
+    dataAds = dataAds.filter((dataAd) => checkFilters(dataAd));
+    removeMarkers();
+    addMarkers(dataAds.slice(0, SIMILAR_AD_COUNT));
+  }, RERENDER_DELAY));
+};
+
+export { addMap, addMarkers, resetMap, renderMarkers, removeMarkers, SIMILAR_AD_COUNT };

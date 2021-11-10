@@ -7,7 +7,6 @@ const LABEL_TYPE = {
   hotel: 'отель',
 };
 
-
 const createCardAd = (dataAd) => {
   //шаблон карты объявления
   const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');

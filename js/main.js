@@ -1,21 +1,17 @@
 
 import { setActiveFilters, setActiveForm, setDisabled, setUserFormSubmit } from './form.js';
-import { addMap, addMarkers } from './map.js';
-import {  showAlert, showSuccessMessage, showErrorMessage } from './util.js';
-const SIMILAR_AD_COUNT = 10;
+import { addMap, addMarkers, SIMILAR_AD_COUNT, renderMarkers } from './map.js';
+import { showSuccessMessage, showErrorMessage } from './util.js';
+import { getData } from './api.js';
+import { setFilterListeners } from './filter.js';
 
 setDisabled();
 addMap(setActiveForm);
 
-fetch('https://24.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((dataAds) => {
-    addMarkers(dataAds.slice(0, SIMILAR_AD_COUNT));
-    setActiveFilters();
-  })
-  .catch(() => {
-    showAlert('Не удалось загрузить данные. Попробуйте ещё раз');
-  });
+getData((dataAds) => {
+  addMarkers(dataAds.slice(0, SIMILAR_AD_COUNT));
+  setActiveFilters();
+});
 
+setFilterListeners(renderMarkers);
 setUserFormSubmit(showSuccessMessage, showErrorMessage);
-
