@@ -5,6 +5,8 @@ import { showSuccessMessage, showErrorMessage } from './util.js';
 import { getData } from './api.js';
 import { setFilterListeners } from './filter.js';
 
+const RERENDER_DELAY = 500;
+
 setDisabled();
 addMap(setActiveForm);
 
@@ -13,5 +15,8 @@ getData((dataAds) => {
   setActiveFilters();
 });
 
-setFilterListeners(renderMarkers);
+setFilterListeners(_.debounce(renderMarkers, RERENDER_DELAY, {
+  'leading': true,
+  'trailing': true,
+}));
 setUserFormSubmit(showSuccessMessage, showErrorMessage);
