@@ -1,7 +1,7 @@
 import { showAlert } from './util.js';
 
 const getData = (onSuccess) => {
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+  fetch('https://24.javascript.pages.academy/keksobooking/data') // можно вынести в константу
     .then((response) => response.json())
     .then((dataAds) => {
       onSuccess(dataAds);
@@ -13,7 +13,7 @@ const getData = (onSuccess) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://24.javascript.pages.academy/keksobooking404',
+    'https://24.javascript.pages.academy/keksobooking404', // можно вынести в константу
     {
       method: 'POST',
       body: body,

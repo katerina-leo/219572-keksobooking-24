@@ -1,4 +1,5 @@
 //словарь типов жилья на русском
+// Нарушен критерий Б8
 const LABEL_TYPE = {
   palace: 'дворец',
   flat: 'квартира',
@@ -23,10 +24,13 @@ const createCardAd = (dataAd) => {
   adElement.querySelector('.popup__avatar').src = dataAd.author.avatar;
   //добавление удобств
   const featuresList = dataAd.offer.features || [];
+  // для красоты эти два селектора лучше вверх перенести, чтобы все в одной куче были
   const popupFeaturesContainer = adElement.querySelector('.popup__features');
   const popupFeaturesList = popupFeaturesContainer.querySelectorAll('.popup__feature');
   const modifieres = featuresList.map((featuresElement) => `popup__feature--${featuresElement}`);
   popupFeaturesList.forEach((popupFeaturesListItem) => {
+    // не особо надежное получение класса, не советую так делать, но для учебного может и пойдет
+    // тупо поменяется порядок классов и ты будешь долго искать в чем баг
     const modifier = popupFeaturesListItem.classList[1];
 
     if (!modifieres.includes(modifier)) {
@@ -35,6 +39,7 @@ const createCardAd = (dataAd) => {
   });
   //Добавление фото
   const photosList = dataAd.offer.photos || [];
+  // тоже лучше вверх в одну кучу
   const popupPhotosContainer = adElement.querySelector('.popup__photos');
   photosList.forEach((photosListElement) => {
     const photosListItem = document.createElement('img');

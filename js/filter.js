@@ -28,6 +28,8 @@ const checkType = (dataAd) => {
 
 const checkPrice = (dataAd) => {
   const value = housingPrice.value;
+
+  // лучше в switch переделать, не замечания, но свитч красиве смотрится
   if (value === 'middle') {
     return dataAd.offer.price >= PriceConstants.LOW && dataAd.offer.price <= PriceConstants.HIGH;
   } else if (value === 'low') {
@@ -35,12 +37,14 @@ const checkPrice = (dataAd) => {
   } else if (value === 'high') {
     return dataAd.offer.price > PriceConstants.HIGH;
   } else {
-    return true;
+    return true; // если даже не переделывать в свитч, то это нужно вынести из условия
+    // критерия Д15
   }
 };
 
 const checkRooms = (dataAd) => {
   const value = housingRooms.value;
+  // аналогично предыдущему
   if (value === RoomValues.ONE) {
     return dataAd.offer.rooms === Rooms.ONE;
   } else if (value === RoomValues.TWO) {
@@ -54,6 +58,7 @@ const checkRooms = (dataAd) => {
 
 const checkGuests = (dataAd) => {
   const value = housingGuests.value;
+  // аналогично предыдущему
   if (value === '2') {
     return dataAd.offer.guests === 2;
   } else if (value === '1') {

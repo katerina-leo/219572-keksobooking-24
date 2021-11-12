@@ -2,8 +2,10 @@ import { createCardAd } from './popup.js';
 import { getData } from './api.js';
 import { checkFilters } from './filter.js';
 
+// думаю лучше будет в виде ENUM/перечисления const InitCoordinate = {...}
 const LAT = 35.6895;
 const LNG = 139.692;
+///
 const SIMILAR_AD_COUNT = 10;
 
 // создает иконку маркера
@@ -39,7 +41,7 @@ const addMap = (setActiveForm) => {
     .setView({
       lat: LAT,
       lng: LNG,
-    }, 9);
+    }, 9); // может побольше зум сделать, а то сейчас как-то сильно далеко и не удобно
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',

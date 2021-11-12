@@ -11,6 +11,7 @@ const capacitySelectElement = adFormElement.querySelector('#capacity');
 const selectElements = document.querySelectorAll('select');
 const inputElements = document.querySelectorAll('input');
 const submitButtonEl = document.querySelector('.ad-form__submit');
+// не крит, но лучше сначала все селекторы, а потом переменные, чтобы было разделение на логические части
 const currentState = {
   countRoom: roomsSelectElement.value,
   isFailSend: false,
@@ -19,7 +20,7 @@ const priceElement = adFormElement.querySelector('#price');
 const typeElement = adFormElement.querySelector('#type');
 const timeInElement = adFormElement.querySelector('#timein');
 const timeOutElement = adFormElement.querySelector('#timeout');
-const minPrice = {
+const minPrice = { // нарушен критерий Б8
   BUNGALOW: 0,
   FLAT: 1000,
   HOTEL:3000,
@@ -57,6 +58,7 @@ const setActiveFilters = () => {
 const checkCapacitySelect = (value) => {
   const valueToNumber = parseInt(value, 10);
 
+  // по возможности лучше в свитч, но не обязательно
   if (valueToNumber > currentState.countRoom && valueToNumber !== 0) {
     capacitySelectElement.setCustomValidity('Нужно больше комнат');
   } else if (currentState.countRoom !== 100 && valueToNumber === 0) {
