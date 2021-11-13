@@ -6,28 +6,27 @@ const adFormElement = document.querySelector('.ad-form');
 const fieldsetAdFormElements = adFormElement.querySelectorAll('fieldset');
 const mapFiltersElement = document.querySelector('.map__filters');
 const selectMapFiltersElements = mapFiltersElement.querySelectorAll('select');
-const roomsSelectElement = adFormElement.querySelector('#room_number');
-const capacitySelectElement = adFormElement.querySelector('#capacity');
 const selectElements = document.querySelectorAll('select');
 const inputElements = document.querySelectorAll('input');
 const submitButtonEl = document.querySelector('.ad-form__submit');
-const currentState = {
-  countRoom: roomsSelectElement.value,
-  isFailSend: false,
-};
+const roomsSelectElement = adFormElement.querySelector('#room_number');
+const capacitySelectElement = adFormElement.querySelector('#capacity');
 const priceElement = adFormElement.querySelector('#price');
 const typeElement = adFormElement.querySelector('#type');
 const timeInElement = adFormElement.querySelector('#timein');
 const timeOutElement = adFormElement.querySelector('#timeout');
-const minPrice = {
+const adFormReset = document.querySelector('.ad-form__reset');
+const currentState = {
+  countRoom: roomsSelectElement.value,
+  isFailSend: false,
+};
+const MinPrice = {
   BUNGALOW: 0,
   FLAT: 1000,
   HOTEL:3000,
   HOUSE: 5000,
   PALACE: 10000,
 };
-const adFormReset = document.querySelector('.ad-form__reset');
-
 const setDisabled = () => {
   adFormElement.classList.add('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
@@ -38,6 +37,7 @@ const setDisabled = () => {
     fieldsetAdFormElement.setAttribute('disabled', 'disabled');
   });
 };
+
 const setActiveForm = () => {
   adFormElement.classList.remove('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
@@ -52,20 +52,18 @@ const setActiveFilters = () => {
   });
 };
 
-//Валидация Количество комнат-количество гостей//
-
 const checkCapacitySelect = (value) => {
   const valueToNumber = parseInt(value, 10);
+  let message = '';
 
   if (valueToNumber > currentState.countRoom && valueToNumber !== 0) {
-    capacitySelectElement.setCustomValidity('Нужно больше комнат');
+    message = 'Нужно больше комнат';
   } else if (currentState.countRoom !== 100 && valueToNumber === 0) {
-    capacitySelectElement.setCustomValidity('Нужно выбрать 100 комнат');
+    message = 'Нужно выбрать 100 комнат';
   } else if (currentState.countRoom === 100 && valueToNumber !== 0) {
-    capacitySelectElement.setCustomValidity('100 комнат - не для гостей');
-  } else {
-    capacitySelectElement.setCustomValidity('');
+    message = '100 комнат - не для гостей';
   }
+  capacitySelectElement.setCustomValidity(message);
 
   capacitySelectElement.reportValidity();
 };
@@ -80,36 +78,31 @@ roomsSelectElement.addEventListener('change', (evt) => {
   checkCapacitySelect(capacitySelectElement.value);
 });
 
-
-//  Тип жилья - цена за ночь//
-
 const getPriceNight = (value) => {
   switch (value) {
     case 'bungalow':
-      priceElement.placeholder = minPrice.BUNGALOW;
-      priceElement.min = minPrice.BUNGALOW;
+      priceElement.placeholder = MinPrice.BUNGALOW;
+      priceElement.min = MinPrice.BUNGALOW;
       break;
     case 'flat':
-      priceElement.placeholder = minPrice.FLAT;
-      priceElement.min = minPrice.FLAT;
+      priceElement.placeholder = MinPrice.FLAT;
+      priceElement.min = MinPrice.FLAT;
       break;
     case 'hotel':
-      priceElement.placeholder =  minPrice.HOTEL;
-      priceElement.min = minPrice.HOTEL;
+      priceElement.placeholder =  MinPrice.HOTEL;
+      priceElement.min = MinPrice.HOTEL;
       break;
     case 'house':
-      priceElement.placeholder = minPrice.HOUSE;
-      priceElement.min = minPrice.HOUSE;
+      priceElement.placeholder = MinPrice.HOUSE;
+      priceElement.min = MinPrice.HOUSE;
       break;
     case 'palace':
-      priceElement.placeholder = minPrice.PALACE;
-      priceElement.min = minPrice.PALACE;
+      priceElement.placeholder = MinPrice.PALACE;
+      priceElement.min = MinPrice.PALACE;
       break;
   }
 };
 typeElement.addEventListener('change', (evt) => getPriceNight(evt.target.value));
-
-//Время заезда-время выезад//
 
 const changeTime = (value) => {
   timeInElement.value = value;
@@ -118,8 +111,6 @@ const changeTime = (value) => {
 
 timeInElement.addEventListener('change', (evt) => changeTime(evt.target.value));
 timeOutElement.addEventListener('change', (evt) => changeTime(evt.target.value));
-
-//Валидация формы//
 
 const setErrorBorder = () => {
   const paintBorder = (el) => {
@@ -158,14 +149,12 @@ submitButtonEl.addEventListener('click', () => {
 });
 
 
-//сбрасывает изменения
 const resetForm = () => {
   adFormElement.reset();
   mapFiltersElement.reset();
-  resetMap(); //сбрасывает метку, балун
+  resetMap();
 };
 
-//отправка формы
 const setUserFormSubmit = (onSuccess, onFail) => {
   adFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -180,8 +169,6 @@ const setUserFormSubmit = (onSuccess, onFail) => {
     );
   });
 };
-
-//сбрасывает изменения кнопкой
 
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();

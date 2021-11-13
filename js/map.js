@@ -1,23 +1,22 @@
 import { createCardAd } from './popup.js';
 import { getData } from './api.js';
 import { checkFilters } from './filter.js';
-
-const LAT = 35.6895;
-const LNG = 139.692;
+const InitCoordinate = {
+  LAT: 35.6895,
+  LNG: 139.692,
+};
 const SIMILAR_AD_COUNT = 10;
 
-// создает иконку маркера
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
-// создает специальный маркер карты
 const mainPinMarker = L.marker(
   {
-    lat: LAT,
-    lng: LNG,
+    lat: InitCoordinate.LAT,
+    lng: InitCoordinate.LNG,
   },
   {
     draggable: true,
@@ -37,9 +36,9 @@ const addMap = (setActiveForm) => {
       setActiveForm();
     })
     .setView({
-      lat: LAT,
-      lng: LNG,
-    }, 9);
+      lat: InitCoordinate.LAT,
+      lng: InitCoordinate.LNG,
+    }, 11);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -48,9 +47,9 @@ const addMap = (setActiveForm) => {
     },
   ).addTo(map);
 
-  mainPinMarker.addTo(map); // добавляет метку на карту
+  mainPinMarker.addTo(map);
 
-  addressInputElement.value = `${LAT}, ${LNG}`; // координаты адреса по умолчанию
+  addressInputElement.value = `${InitCoordinate.LAT}, ${InitCoordinate.LNG}`;
 
   mainPinMarker.on('moveend', (evt) => {
     const lat = (evt.target.getLatLng().lat).toFixed(5);
@@ -59,7 +58,6 @@ const addMap = (setActiveForm) => {
   });
 };
 
-// обычные метки c объявлениями
 const addMarkers = (dataAds) => {
   dataAds.forEach((dataAd) => {
     const {location: {lat, lng}} = dataAd;
@@ -82,11 +80,10 @@ const addMarkers = (dataAds) => {
   });
 };
 
-//сбрасывает метку, показ балуна
 const resetMap = () => {
-  const latLng = L.latLng(LAT, LNG);
+  const latLng = L.latLng(InitCoordinate.LAT, InitCoordinate.LNG);
   mainPinMarker.setLatLng(latLng);
-  addressInputElement.value = `${LAT}, ${LNG}`; // координаты адреса по умолчанию
+  addressInputElement.value = `${InitCoordinate.LAT}, ${InitCoordinate.LNG}`;
   map.closePopup();
 };
 
@@ -95,7 +92,6 @@ const removeMarkers = () => {
   mapData.markers = [];
 };
 
-//перерисовывает маркеры при фильтрации
 const renderMarkers = () => {
   getData((dataAds) => {
     dataAds = dataAds.filter((dataAd) => checkFilters(dataAd));

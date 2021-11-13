@@ -1,7 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
 
-
-//шаблон сообщения при успешной отправке формы
 const createSuccessTemplate = () =>{
   const successMessageTemplate = document.querySelector('#success')
     .content
@@ -10,8 +8,6 @@ const createSuccessTemplate = () =>{
   return successMessageElement;
 };
 
-//шаблон сообщения - при отправке формы произошла ошибка запроса
-
 const createErrorTemplate = () =>{
   const successMessageTemplate = document.querySelector('#error')
     .content
@@ -19,8 +15,6 @@ const createErrorTemplate = () =>{
   const errorMessageElement = successMessageTemplate.cloneNode(true);
   return errorMessageElement;
 };
-
-//сообщение при ошибке загрузки
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -33,7 +27,6 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-//сообщение на весь экран при успешной отправке и его закрытие
 const showSuccessMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();
   document.body.appendChild(template);
@@ -50,9 +43,6 @@ const showSuccessMessage = (createMessageTemplate) => {
     }
   });
 };
-
-
-//сообщение на весь экран об ошибке  и его закрытие
 
 const showErrorMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();

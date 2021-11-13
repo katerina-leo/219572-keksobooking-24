@@ -20,6 +20,17 @@ const RoomValues = {
   TWO: '2',
   THREE: '3',
 };
+const Guests = {
+  ONE: 1,
+  TWO: 2,
+  ZERO: 0,
+};
+
+const GuestsValues = {
+  ONE: '1',
+  TWO: '2',
+  ZERO: '0',
+};
 
 const checkType = (dataAd) => {
   const housingTypeValue = housingType.value;
@@ -28,40 +39,43 @@ const checkType = (dataAd) => {
 
 const checkPrice = (dataAd) => {
   const value = housingPrice.value;
-  if (value === 'middle') {
-    return dataAd.offer.price >= PriceConstants.LOW && dataAd.offer.price <= PriceConstants.HIGH;
-  } else if (value === 'low') {
-    return dataAd.offer.price < PriceConstants.LOW;
-  } else if (value === 'high') {
-    return dataAd.offer.price > PriceConstants.HIGH;
-  } else {
-    return true;
+  switch (value) {
+    case 'middle':
+      return dataAd.offer.price >= PriceConstants.LOW && dataAd.offer.price <= PriceConstants.HIGH;
+    case 'low':
+      return dataAd.offer.price < PriceConstants.LOW;
+    case 'high':
+      return dataAd.offer.price > PriceConstants.HIGH;
+    default:
+      return true;
   }
 };
 
 const checkRooms = (dataAd) => {
   const value = housingRooms.value;
-  if (value === RoomValues.ONE) {
-    return dataAd.offer.rooms === Rooms.ONE;
-  } else if (value === RoomValues.TWO) {
-    return dataAd.offer.rooms === Rooms.TWO;
-  } else if (value === RoomValues.THREE) {
-    return dataAd.offer.rooms === Rooms.THREE;
-  } else {
-    return true;
+  switch (value) {
+    case RoomValues.ONE:
+      return dataAd.offer.rooms === Rooms.ONE;
+    case RoomValues.TWO:
+      return dataAd.offer.rooms === Rooms.TWO;
+    case RoomValues.THREE:
+      return dataAd.offer.rooms === Rooms.THREE;
+    default:
+      return true;
   }
 };
 
 const checkGuests = (dataAd) => {
   const value = housingGuests.value;
-  if (value === '2') {
-    return dataAd.offer.guests === 2;
-  } else if (value === '1') {
-    return dataAd.offer.guests === 1;
-  } else if (value === '0') {
-    return dataAd.offer.guests === 0;
-  } else {
-    return true;
+  switch (value) {
+    case GuestsValues.TWO:
+      return dataAd.offer.guests === Guests.TWO;
+    case GuestsValues.ONE:
+      return dataAd.offer.guests === Guests.ONE;
+    case GuestsValues.ZERO:
+      return dataAd.offer.guests === Guests.ZERO;
+    default:
+      return true;
   }
 };
 
@@ -72,10 +86,9 @@ const checkFeatures = (dataAd) => {
   return featuresList.every((featuresEl) => dataAdFeatures.includes(featuresEl));
 };
 
-//все пункты фильтров
 const checkFilters = (dataAd) => checkType(dataAd) && checkPrice(dataAd) && checkRooms(dataAd) && checkGuests(dataAd) && checkFeatures(dataAd);
 
-//слушатели события на фильтр
+
 const setFilterListeners = (renderMarkers) => {
   housingType.addEventListener('change', renderMarkers);
   housingPrice.addEventListener('change', renderMarkers);
