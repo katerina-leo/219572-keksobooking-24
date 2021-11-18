@@ -24,24 +24,32 @@ const createCardAd = (dataAd) => {
   adElement.querySelector('.popup__avatar').src = dataAd.author.avatar;
 
   const featuresList = dataAd.offer.features || [];
-  popupFeaturesList.forEach((popupFeaturesListItem) => {
-    const isNecessary = featuresList.some(
-      (featuresElement) => popupFeaturesListItem.classList.contains(`popup__feature--${featuresElement}`),
-    );
-    if (!isNecessary) {
-      popupFeaturesListItem.remove();
-    }
-  });
+  if (featuresList.length > 0) {
+    popupFeaturesList.forEach((popupFeaturesListItem) => {
+      const isNecessary = featuresList.some(
+        (featuresElement) => popupFeaturesListItem.classList.contains(`popup__feature--${featuresElement}`),
+      );
+      if (!isNecessary) {
+        popupFeaturesListItem.remove();
+      }
+    });
+  } else {
+    popupFeaturesContainer.remove();
+  }
 
   const photosList = dataAd.offer.photos || [];
-  photosList.forEach((photosListElement) => {
-    const photosListItem = document.createElement('img');
-    photosListItem.classList.add('popup__photo');
-    photosListItem.height = 40;
-    photosListItem.width = 45;
-    photosListItem.src = photosListElement;
-    popupPhotosContainer.appendChild(photosListItem);
-  });
+  if (photosList.length > 0) {
+    photosList.forEach((photosListElement) => {
+      const photosListItem = document.createElement('img');
+      photosListItem.classList.add('popup__photo');
+      photosListItem.height = 40;
+      photosListItem.width = 45;
+      photosListItem.src = photosListElement;
+      popupPhotosContainer.appendChild(photosListItem);
+    });
+  } else {
+    popupPhotosContainer.remove();
+  }
 
   return adElement;
 };

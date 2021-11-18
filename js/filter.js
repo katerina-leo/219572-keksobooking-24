@@ -9,21 +9,10 @@ const PriceConstants = {
   HIGH: 50000,
 };
 
-const Rooms = {
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-};
-
 const RoomValues = {
   ONE: '1',
   TWO: '2',
   THREE: '3',
-};
-const Guests = {
-  ONE: 1,
-  TWO: 2,
-  ZERO: 0,
 };
 
 const GuestsValues = {
@@ -55,11 +44,11 @@ const checkRooms = (dataAd) => {
   const value = housingRooms.value;
   switch (value) {
     case RoomValues.ONE:
-      return dataAd.offer.rooms === Rooms.ONE;
+      return dataAd.offer.rooms === _.toNumber(RoomValues.ONE);
     case RoomValues.TWO:
-      return dataAd.offer.rooms === Rooms.TWO;
+      return dataAd.offer.rooms === _.toNumber(RoomValues.TWO);
     case RoomValues.THREE:
-      return dataAd.offer.rooms === Rooms.THREE;
+      return dataAd.offer.rooms === _.toNumber(RoomValues.THREE);
     default:
       return true;
   }
@@ -69,11 +58,11 @@ const checkGuests = (dataAd) => {
   const value = housingGuests.value;
   switch (value) {
     case GuestsValues.TWO:
-      return dataAd.offer.guests === Guests.TWO;
+      return dataAd.offer.guests === _.toNumber(GuestsValues.TWO);
     case GuestsValues.ONE:
-      return dataAd.offer.guests === Guests.ONE;
+      return dataAd.offer.guests === _.toNumber(GuestsValues.ONE);
     case GuestsValues.ZERO:
-      return dataAd.offer.guests === Guests.ZERO;
+      return dataAd.offer.guests === _.toNumber(GuestsValues.ZERO);
     default:
       return true;
   }
@@ -89,13 +78,13 @@ const checkFeatures = (dataAd) => {
 const checkFilters = (dataAd) => checkType(dataAd) && checkPrice(dataAd) && checkRooms(dataAd) && checkGuests(dataAd) && checkFeatures(dataAd);
 
 
-const setFilterListeners = (renderMarkers) => {
-  housingType.addEventListener('change', renderMarkers);
-  housingPrice.addEventListener('change', renderMarkers);
-  housingRooms.addEventListener('change', renderMarkers);
-  housingGuests.addEventListener('change', renderMarkers);
+const setFilterListeners = (onFilterChange) => {
+  housingType.addEventListener('change', onFilterChange);
+  housingPrice.addEventListener('change', onFilterChange);
+  housingRooms.addEventListener('change', onFilterChange);
+  housingGuests.addEventListener('change', onFilterChange);
   mapFiltersElement.querySelectorAll('#housing-features .map__checkbox').forEach((element) => {
-    element.addEventListener('change', renderMarkers);
+    element.addEventListener('change', onFilterChange);
   });
 };
 

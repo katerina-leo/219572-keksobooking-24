@@ -1,11 +1,16 @@
 import { createCardAd } from './popup.js';
 import { getData } from './api.js';
 import { checkFilters } from './filter.js';
+import { setActiveForm } from './form.js';
+
+
 const InitCoordinate = {
-  LAT: 35.6895,
-  LNG: 139.692,
+  LAT: 35.68950,
+  LNG: 139.69171,
 };
+
 const SIMILAR_AD_COUNT = 10;
+const DIGITS = 5;
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -26,14 +31,12 @@ const mainPinMarker = L.marker(
 
 const map = L.map('map-canvas');
 const addressInputElement = document.querySelector('#address');
-const mapData = {
-  markers: [],
-};
 
-const addMap = (setActiveForm) => {
+const addMap = (loadData) => {
   map
     .on('load', () => {
       setActiveForm();
+      loadData();
     })
     .setView({
       lat: InitCoordinate.LAT,
@@ -49,14 +52,16 @@ const addMap = (setActiveForm) => {
 
   mainPinMarker.addTo(map);
 
-  addressInputElement.value = `${InitCoordinate.LAT}, ${InitCoordinate.LNG}`;
+  addressInputElement.value = `${InitCoordinate.LAT.toFixed(DIGITS)}, ${InitCoordinate.LNG.toFixed(DIGITS)}`;
 
   mainPinMarker.on('moveend', (evt) => {
-    const lat = (evt.target.getLatLng().lat).toFixed(5);
-    const lng = (evt.target.getLatLng().lng).toFixed(5);
+    const lat = (evt.target.getLatLng().lat).toFixed(DIGITS);
+    const lng = (evt.target.getLatLng().lng).toFixed(DIGITS);
     addressInputElement.value = `${lat}, ${lng}`;
   });
 };
+
+const markerGroup = L.layerGroup().addTo(map);
 
 const addMarkers = (dataAds) => {
   dataAds.forEach((dataAd) => {
@@ -74,30 +79,24 @@ const addMarkers = (dataAds) => {
       icon,
     });
     marker
-      .addTo(map)
+      .addTo(markerGroup)
       .bindPopup(createCardAd(dataAd));
-    mapData.markers.push(marker);
   });
 };
 
 const resetMap = () => {
   const latLng = L.latLng(InitCoordinate.LAT, InitCoordinate.LNG);
   mainPinMarker.setLatLng(latLng);
-  addressInputElement.value = `${InitCoordinate.LAT}, ${InitCoordinate.LNG}`;
+  addressInputElement.value = `${InitCoordinate.LAT.toFixed(DIGITS)}, ${InitCoordinate.LNG.toFixed(DIGITS)}`;
   map.closePopup();
-};
-
-const removeMarkers = () => {
-  mapData.markers.forEach((marker) => marker.remove());
-  mapData.markers = [];
 };
 
 const renderMarkers = () => {
   getData((dataAds) => {
     dataAds = dataAds.filter((dataAd) => checkFilters(dataAd));
-    removeMarkers();
+    markerGroup.clearLayers();
     addMarkers(dataAds.slice(0, SIMILAR_AD_COUNT));
   });
 };
 
-export { addMap, addMarkers, resetMap, renderMarkers, removeMarkers, SIMILAR_AD_COUNT };
+export { addMap, addMarkers, resetMap, renderMarkers, SIMILAR_AD_COUNT };

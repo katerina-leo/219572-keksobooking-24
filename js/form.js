@@ -1,5 +1,5 @@
 import { createSuccessTemplate, createErrorTemplate } from './util.js';
-import { resetMap } from './map.js';
+import { resetMap, renderMarkers } from './map.js';
 import { sendData } from './api.js';
 
 const adFormElement = document.querySelector('.ad-form');
@@ -30,25 +30,25 @@ const MinPrice = {
 const setDisabled = () => {
   adFormElement.classList.add('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
-    fieldsetAdFormElement.setAttribute('disabled', 'disabled');
+    fieldsetAdFormElement.disabled = true;
   });
   mapFiltersElement.classList.add('map__filters--disabled');
   selectMapFiltersElements.forEach((fieldsetAdFormElement) => {
-    fieldsetAdFormElement.setAttribute('disabled', 'disabled');
+    fieldsetAdFormElement.disabled = true;
   });
 };
 
 const setActiveForm = () => {
   adFormElement.classList.remove('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
-    fieldsetAdFormElement.removeAttribute('disabled');
+    fieldsetAdFormElement.disabled = false;
   });
 };
 
 const setActiveFilters = () => {
   mapFiltersElement.classList.remove('map__filters--disabled');
   selectMapFiltersElements.forEach((fieldsetAdFormElement) => {
-    fieldsetAdFormElement.removeAttribute('disabled');
+    fieldsetAdFormElement.disabled = false;
   });
 };
 
@@ -72,7 +72,9 @@ const setCountRooms = (value) => {
   const valueToNumber = parseInt(value, 10);
   currentState.countRoom = valueToNumber;
 };
+
 capacitySelectElement.addEventListener('change', (evt) => checkCapacitySelect(evt.target.value));
+
 roomsSelectElement.addEventListener('change', (evt) => {
   setCountRooms(evt.target.value);
   checkCapacitySelect(capacitySelectElement.value);
@@ -152,7 +154,11 @@ submitButtonEl.addEventListener('click', () => {
 const resetForm = () => {
   adFormElement.reset();
   mapFiltersElement.reset();
+  setCountRooms(roomsSelectElement.value);
   resetMap();
+  renderMarkers();
+  priceElement.placeholder = MinPrice.FLAT;
+  priceElement.min = MinPrice.FLAT;
 };
 
 const setUserFormSubmit = (onSuccess, onFail) => {

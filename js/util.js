@@ -1,18 +1,19 @@
 const ALERT_SHOW_TIME = 5000;
 
+const successMessageTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+const errorMessageTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+
 const createSuccessTemplate = () =>{
-  const successMessageTemplate = document.querySelector('#success')
-    .content
-    .querySelector('.success');
   const successMessageElement = successMessageTemplate.cloneNode(true);
   return successMessageElement;
 };
 
 const createErrorTemplate = () =>{
-  const successMessageTemplate = document.querySelector('#error')
-    .content
-    .querySelector('.error');
-  const errorMessageElement = successMessageTemplate.cloneNode(true);
+  const errorMessageElement = errorMessageTemplate.cloneNode(true);
   return errorMessageElement;
 };
 
@@ -27,42 +28,47 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const onSuccessPopupEscKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    document.querySelector('.success').remove();
+    document.removeEventListener('keydown', onSuccessPopupEscKeydown);
+  }
+};
+
 const showSuccessMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();
   document.body.appendChild(template);
 
-  const successElement = document.querySelector('.success');
-  successElement.addEventListener('click', (evt) => {
+  document.querySelector('.success').addEventListener('click', (evt) => {
     evt.preventDefault();
-    successElement.remove();
+    document.querySelector('.success').remove();
   });
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      successElement.remove();
-    }
-  });
+  document.addEventListener('keydown', onSuccessPopupEscKeydown);
+};
+
+const onErrorPopupEscKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    document.querySelector('.error').remove();
+    document.removeEventListener('keydown', onErrorPopupEscKeydown);
+  }
 };
 
 const showErrorMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();
   document.body.appendChild(template);
 
-  const errorElement = document.querySelector('.error');
   const errorButton = document.querySelector('.error__button');
+
   errorButton.addEventListener('click', () => {
-    errorElement.remove();
+    document.querySelector('.error').remove();
   });
-  errorElement.addEventListener('click', (evt) => {
+  document.querySelector('.error').addEventListener('click', (evt) => {
     evt.preventDefault();
-    errorElement.remove();
+    document.querySelector('.error').remove();
   });
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      errorElement.remove();
-    }
-  });
+  document.addEventListener('keydown',onErrorPopupEscKeydown);
 };
 
 export { showAlert, createSuccessTemplate, createErrorTemplate, showSuccessMessage, showErrorMessage };
