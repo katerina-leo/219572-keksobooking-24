@@ -43,6 +43,7 @@ const showSuccessMessage = (createMessageTemplate) => {
   document.querySelector('.success').addEventListener('click', (evt) => {
     evt.preventDefault();
     document.querySelector('.success').remove();
+    document.removeEventListener('keydown', onSuccessPopupEscKeydown);
   });
   document.addEventListener('keydown', onSuccessPopupEscKeydown);
 };
@@ -58,16 +59,23 @@ const onErrorPopupEscKeydown = (evt) => {
 const showErrorMessage = (createMessageTemplate) => {
   const template = createMessageTemplate();
   document.body.appendChild(template);
-
   const errorButton = document.querySelector('.error__button');
 
-  errorButton.addEventListener('click', () => {
-    document.querySelector('.error').remove();
-  });
-  document.querySelector('.error').addEventListener('click', (evt) => {
+  errorButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     document.querySelector('.error').remove();
+    document.removeEventListener('keydown', onErrorPopupEscKeydown);
   });
+
+  document.querySelector('.error').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    const errorElement = document.querySelector('.error');
+    if (errorElement) {
+      errorElement.remove();
+      document.removeEventListener('keydown', onErrorPopupEscKeydown);
+    }
+  });
+
   document.addEventListener('keydown',onErrorPopupEscKeydown);
 };
 
