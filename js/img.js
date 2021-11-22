@@ -7,6 +7,9 @@ const previewPhotoContainer = adForm.querySelector('.ad-form__photo');
 
 const getLoadFile = (inputFile, preview ) => {
   const file = inputFile.files[0];
+  if (!file) {
+    return;
+  }
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
@@ -19,7 +22,6 @@ avatarChooser.addEventListener('change', () => {
   getLoadFile(avatarChooser, previewAvatar );
 });
 photoChooser.addEventListener('change', () => {
-  // previewPhotoContainer.innerHTML = '';
   const photo = document.createElement('img');
   getLoadFile(photoChooser, photo);
   photo.width = 70;
