@@ -4,6 +4,7 @@ import { showSuccessMessage, showErrorMessage } from './util.js';
 import { getData } from './api.js';
 import { setFilterListeners } from './filter.js';
 
+
 const RERENDER_DELAY = 500;
 
 setDisabled();
@@ -20,3 +21,4 @@ setFilterListeners(_.debounce(renderMarkers, RERENDER_DELAY, {
   'trailing': true,
 }));
 setUserFormSubmit(showSuccessMessage, showErrorMessage);
+

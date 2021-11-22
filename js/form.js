@@ -1,6 +1,7 @@
 import { createSuccessTemplate, createErrorTemplate } from './util.js';
 import { resetMap, renderMarkers } from './map.js';
 import { sendData } from './api.js';
+import { previewAvatar, previewPhotoContainer } from './img.js';
 
 const adFormElement = document.querySelector('.ad-form');
 const fieldsetAdFormElements = adFormElement.querySelectorAll('fieldset');
@@ -159,6 +160,8 @@ const resetForm = () => {
   renderMarkers();
   priceElement.placeholder = MinPrice.FLAT;
   priceElement.min = MinPrice.FLAT;
+  previewAvatar.src = 'img/avatars/default.png';
+  previewPhotoContainer.innerHTML = '';
 };
 
 const setUserFormSubmit = (onSuccess, onFail) => {
