@@ -6,7 +6,7 @@ const labelType = {
   bungalow: 'бунгало',
   hotel: 'отель',
 };
-
+//карта объявления
 const createCardAd = (dataAd) => {
   const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
   const adElement = similarAdTemplate.cloneNode(true);
@@ -22,7 +22,7 @@ const createCardAd = (dataAd) => {
   adElement.querySelector('.popup__text--time').textContent = `Заезд после ${dataAd.offer.checkin}, выезд до ${dataAd.offer.checkout}`;
   adElement.querySelector('.popup__description').textContent = dataAd.offer.description;
   adElement.querySelector('.popup__avatar').src = dataAd.author.avatar;
-
+  //шаблон удобств
   const featuresList = dataAd.offer.features || [];
   if (featuresList.length > 0) {
     popupFeaturesList.forEach((popupFeaturesListItem) => {
@@ -36,7 +36,7 @@ const createCardAd = (dataAd) => {
   } else {
     popupFeaturesContainer.remove();
   }
-
+  //шаблон фото
   const photosList = dataAd.offer.photos || [];
   if (photosList.length > 0) {
     photosList.forEach((photosListElement) => {

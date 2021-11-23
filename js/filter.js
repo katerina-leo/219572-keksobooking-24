@@ -20,12 +20,12 @@ const GuestsValues = {
   TWO: '2',
   ZERO: '0',
 };
-
+//фильтр типа жилья
 const checkType = (dataAd) => {
   const housingTypeValue = housingType.value;
   return housingTypeValue === 'any' || dataAd.offer.type === housingTypeValue;
 };
-
+//фильр цены
 const checkPrice = (dataAd) => {
   const value = housingPrice.value;
   switch (value) {
@@ -39,7 +39,7 @@ const checkPrice = (dataAd) => {
       return true;
   }
 };
-
+//фильтр количества комнат
 const checkRooms = (dataAd) => {
   const value = housingRooms.value;
   switch (value) {
@@ -53,7 +53,7 @@ const checkRooms = (dataAd) => {
       return true;
   }
 };
-
+//количество гостей
 const checkGuests = (dataAd) => {
   const value = housingGuests.value;
   switch (value) {
@@ -67,17 +67,17 @@ const checkGuests = (dataAd) => {
       return true;
   }
 };
-
+//фильтр удобств
 const checkFeatures = (dataAd) => {
   const checkedList = document.querySelectorAll('#housing-features .map__checkbox:checked');
   const featuresList = Array.from(checkedList).map((checkedEl) => checkedEl.value);
   const dataAdFeatures = dataAd.offer.features || [];
   return featuresList.every((featuresEl) => dataAdFeatures.includes(featuresEl));
 };
-
+//все фильтры
 const checkFilters = (dataAd) => checkType(dataAd) && checkPrice(dataAd) && checkRooms(dataAd) && checkGuests(dataAd) && checkFeatures(dataAd);
 
-
+//слушатели события на фильтр
 const setFilterListeners = (onFilterChange) => {
   housingType.addEventListener('change', onFilterChange);
   housingPrice.addEventListener('change', onFilterChange);

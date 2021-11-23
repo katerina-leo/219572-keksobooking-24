@@ -28,6 +28,7 @@ const MinPrice = {
   HOUSE: 5000,
   PALACE: 10000,
 };
+//некативное состояние
 const setDisabled = () => {
   adFormElement.classList.add('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
@@ -38,21 +39,21 @@ const setDisabled = () => {
     fieldsetAdFormElement.disabled = true;
   });
 };
-
+//активное состояние формы
 const setActiveForm = () => {
   adFormElement.classList.remove('ad-form--disabled');
   fieldsetAdFormElements.forEach((fieldsetAdFormElement) => {
     fieldsetAdFormElement.disabled = false;
   });
 };
-
+//активное состояние фильтров
 const setActiveFilters = () => {
   mapFiltersElement.classList.remove('map__filters--disabled');
   selectMapFiltersElements.forEach((fieldsetAdFormElement) => {
     fieldsetAdFormElement.disabled = false;
   });
 };
-
+//валидация комнат и гостей
 const checkCapacitySelect = (value) => {
   const valueToNumber = parseInt(value, 10);
   let message = '';
@@ -80,7 +81,7 @@ roomsSelectElement.addEventListener('change', (evt) => {
   setCountRooms(evt.target.value);
   checkCapacitySelect(capacitySelectElement.value);
 });
-
+//валидация цены 
 const getPriceNight = (value) => {
   switch (value) {
     case 'bungalow':
@@ -106,7 +107,7 @@ const getPriceNight = (value) => {
   }
 };
 typeElement.addEventListener('change', (evt) => getPriceNight(evt.target.value));
-
+//время заезда и выезда
 const changeTime = (value) => {
   timeInElement.value = value;
   timeOutElement.value = value;
@@ -151,7 +152,7 @@ submitButtonEl.addEventListener('click', () => {
   }
 });
 
-
+//очищает форму
 const resetForm = () => {
   adFormElement.reset();
   mapFiltersElement.reset();
@@ -163,7 +164,7 @@ const resetForm = () => {
   previewAvatar.src = 'img/avatars/default.png';
   previewPhotoContainer.innerHTML = '';
 };
-
+//отправка формы
 const setUserFormSubmit = (onSuccess, onFail) => {
   adFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -178,7 +179,7 @@ const setUserFormSubmit = (onSuccess, onFail) => {
     );
   });
 };
-
+//кнопка очистки формы
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm();

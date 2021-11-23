@@ -11,7 +11,7 @@ const InitCoordinate = {
 
 const SIMILAR_AD_COUNT = 10;
 const DIGITS = 5;
-
+//главная метка
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
@@ -31,7 +31,7 @@ const mainPinMarker = L.marker(
 
 const map = L.map('map-canvas');
 const addressInputElement = document.querySelector('#address');
-
+//загрузка карта с метками
 const addMap = (loadData) => {
   map
     .on('load', () => {
@@ -51,7 +51,7 @@ const addMap = (loadData) => {
   ).addTo(map);
 
   mainPinMarker.addTo(map);
-
+  //координаты адреса по умолчанию
   addressInputElement.value = `${InitCoordinate.LAT.toFixed(DIGITS)}, ${InitCoordinate.LNG.toFixed(DIGITS)}`;
 
   mainPinMarker.on('moveend', (evt) => {
@@ -60,7 +60,7 @@ const addMap = (loadData) => {
     addressInputElement.value = `${lat}, ${lng}`;
   });
 };
-
+//добавяет метки объявлений
 const markerGroup = L.layerGroup().addTo(map);
 
 const addMarkers = (dataAds) => {
@@ -83,14 +83,14 @@ const addMarkers = (dataAds) => {
       .bindPopup(createCardAd(dataAd));
   });
 };
-
+//сбрасывает метку, показ балуна
 const resetMap = () => {
   const latLng = L.latLng(InitCoordinate.LAT, InitCoordinate.LNG);
   mainPinMarker.setLatLng(latLng);
   addressInputElement.value = `${InitCoordinate.LAT.toFixed(DIGITS)}, ${InitCoordinate.LNG.toFixed(DIGITS)}`;
   map.closePopup();
 };
-
+//перерисовывает метки при фильтрации
 const renderMarkers = () => {
   getData((dataAds) => {
     dataAds = dataAds.filter((dataAd) => checkFilters(dataAd));

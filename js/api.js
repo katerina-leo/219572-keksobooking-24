@@ -5,7 +5,7 @@ const POSTING_URL = 'https://24.javascript.pages.academy/keksobooking';
 const data = {
   ads: [],
 };
-
+//получение данных
 const getData = (onSuccess) => {
   if (data.ads.length === 0) {
     fetch(GETTING_URL)
@@ -21,7 +21,7 @@ const getData = (onSuccess) => {
     onSuccess(data.ads);
   }
 };
-
+//отправка данных
 const sendData = (onSuccess, onFail, body) => {
   fetch(
     POSTING_URL,
